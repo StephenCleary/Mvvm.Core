@@ -105,11 +105,6 @@ namespace Nito.Mvvm
                 return ReferenceEquals(RaisePropertyChanged, other.RaisePropertyChanged) && EventArgs.PropertyName == other.EventArgs.PropertyName;
             }
 
-            public override bool Equals(object obj)
-            {
-                return Equals((PropertyChangedNotification)obj);
-            }
-
             public override int GetHashCode()
             {
                 return RuntimeHelpers.GetHashCode(RaisePropertyChanged) ^ EventArgs.PropertyName.GetHashCode();
