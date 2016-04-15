@@ -1,15 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.22609.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8D8D99D9-514F-4BA9-9119-43EFACCB4DC8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{BB86A96A-CFD9-4F4D-8FE0-1472F17489F6}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Nito.Mvvm.Core", "src\Nito.Mvvm.Core\Nito.Mvvm.Core.kproj", "{2ADF2E2B-B0A2-4B17-8F14-A6E76EA56208}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Nito.Mvvm.Core", "src\Nito.Mvvm.Core\Nito.Mvvm.Core.xproj", "{2ADF2E2B-B0A2-4B17-8F14-A6E76EA56208}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "UnitTests", "test\UnitTests\UnitTests.kproj", "{3D1D69C1-E00F-4748-8535-A7A0A3802997}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "UnitTests", "test\UnitTests\UnitTests.xproj", "{3D1D69C1-E00F-4748-8535-A7A0A3802997}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1EF2B517-B23B-4414-A3BE-480222AD37E0}"
 	ProjectSection(SolutionItems) = preProject

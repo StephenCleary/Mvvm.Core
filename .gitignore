@@ -182,6 +182,7 @@ UpgradeLog*.htm
 *.rdl.data
 *.bim.layout
 *.bim_*.settings
+*.lock.json
 
 # Microsoft Fakes
 FakesAssemblies/
