@@ -12,7 +12,7 @@ namespace Nito.Mvvm
         /// <summary>
         /// The actual collection of strongly-typed weak references.
         /// </summary>
-        private List<WeakReference<T>> _list = new List<WeakReference<T>>();
+        private readonly List<WeakReference<T>> _list = new List<WeakReference<T>>();
 
         /// <summary>
         /// Gets a list of live objects from this collection, causing a purge.
@@ -20,7 +20,7 @@ namespace Nito.Mvvm
         /// <returns></returns>
         public List<T> GetLiveItems()
         {
-            List<T> ret = new List<T>(_list.Count);
+            var ret = new List<T>(_list.Count);
 
             // This implementation uses logic similar to List<T>.RemoveAll, which always has O(n) time.
             //  Some other implementations seen in the wild have O(n*m) time, where m is the number of dead entries.
@@ -64,7 +64,7 @@ namespace Nito.Mvvm
         {
             for (int i = 0; i != _list.Count; ++i)
             {
-                WeakReference<T> weakReference = _list[i];
+                var weakReference = _list[i];
                 T entry;
                 if (weakReference.TryGetTarget(out entry) && entry == item)
                 {

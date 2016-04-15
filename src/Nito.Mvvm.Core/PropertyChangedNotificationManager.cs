@@ -14,7 +14,7 @@ namespace Nito.Mvvm
     public sealed class PropertyChangedNotificationManager
     {
         [ThreadStatic]
-        private static PropertyChangedNotificationManager SingletonInstance;
+        private static PropertyChangedNotificationManager _singletonInstance;
         private readonly HashSet<PropertyChangedNotification> _propertiesRequiringNotification = new HashSet<PropertyChangedNotification>();
         private readonly Lazy<ResumeOnDispose> _resumeOnDispose;
         private int _referenceCount;
@@ -31,9 +31,9 @@ namespace Nito.Mvvm
         {
             get
             {
-                if (SingletonInstance == null)
-                    SingletonInstance = new PropertyChangedNotificationManager();
-                return SingletonInstance;
+                if (_singletonInstance == null)
+                    _singletonInstance = new PropertyChangedNotificationManager();
+                return _singletonInstance;
             }
         }
 
@@ -63,12 +63,12 @@ namespace Nito.Mvvm
         /// </summary>
         /// <param name="raisePropertyChanged">An object capable of raising <see cref="INotifyPropertyChanged.PropertyChanged"/>.</param>
         /// <param name="args">The event arguments to pass to <see cref="INotifyPropertyChanged.PropertyChanged"/>.</param>
-        public void Register(IRaisePropertyChanged raisePropertyChanged, PropertyChangedEventArgs e)
+        public void Register(IRaisePropertyChanged raisePropertyChanged, PropertyChangedEventArgs args)
         {
             if (_referenceCount == 0)
-                raisePropertyChanged.RaisePropertyChanged(e);
+                raisePropertyChanged.RaisePropertyChanged(args);
             else
-                _propertiesRequiringNotification.Add(new PropertyChangedNotification(raisePropertyChanged, e));
+                _propertiesRequiringNotification.Add(new PropertyChangedNotification(raisePropertyChanged, args));
         }
 
         /// <summary>
@@ -139,9 +139,9 @@ namespace Nito.Mvvm
                 _value = value;
             }
 
-            public int ReferenceCount { get { return _value._referenceCount; } }
+            public int ReferenceCount => _value._referenceCount;
 
-            public HashSet<PropertyChangedNotification> DeferredNotifications { get { return _value._propertiesRequiringNotification; } }
+            public HashSet<PropertyChangedNotification> DeferredNotifications => _value._propertiesRequiringNotification;
         }
     }
 }

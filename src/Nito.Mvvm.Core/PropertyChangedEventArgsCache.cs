@@ -14,11 +14,6 @@ namespace Nito.Mvvm
         private readonly Dictionary<string, PropertyChangedEventArgs> _cache = new Dictionary<string, PropertyChangedEventArgs>();
 
         /// <summary>
-        /// The global instance of the cache.
-        /// </summary>
-        private static PropertyChangedEventArgsCache StaticInstance = new PropertyChangedEventArgsCache();
-
-        /// <summary>
         /// Private constructor to prevent other instances.
         /// </summary>
         private PropertyChangedEventArgsCache()
@@ -28,7 +23,7 @@ namespace Nito.Mvvm
         /// <summary>
         /// The global instance of the cache.
         /// </summary>
-        public static PropertyChangedEventArgsCache Instance { get { return StaticInstance; } }
+        public static PropertyChangedEventArgsCache Instance { get; } = new PropertyChangedEventArgsCache();
 
         /// <summary>
         /// Retrieves a <see cref="PropertyChangedEventArgs"/> instance for the specified property, creating it and adding it to the cache if necessary.

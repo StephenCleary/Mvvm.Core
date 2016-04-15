@@ -11,7 +11,7 @@ namespace Nito.Mvvm
         /// <summary>
         /// Raises <see cref="INotifyPropertyChanged.PropertyChanged"/> with the specified arguments.
         /// </summary>
-        /// <param name="e">The event arguments to pass to <see cref="INotifyPropertyChanged.PropertyChanged"/>.</param>
-        void RaisePropertyChanged(PropertyChangedEventArgs e);
+        /// <param name="args">The event arguments to pass to <see cref="INotifyPropertyChanged.PropertyChanged"/>.</param>
+        void RaisePropertyChanged(PropertyChangedEventArgs args);
     }
 }

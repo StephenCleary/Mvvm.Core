@@ -15,7 +15,7 @@ namespace Nito.Mvvm
         /// <summary>
         /// The weak collection of delegates for <see cref="CanExecuteChanged"/>.
         /// </summary>
-        private WeakCollection<EventHandler> _canExecuteChanged = new WeakCollection<EventHandler>();
+        private readonly WeakCollection<EventHandler> _canExecuteChanged = new WeakCollection<EventHandler>();
 
         /// <summary>
         /// Creates a new weak-event implementation of <c>ICommand.CanExecuteChanged</c>.

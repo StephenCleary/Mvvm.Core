@@ -27,7 +27,7 @@ namespace Nito.Mvvm
         }
 
         /// <summary>
-        /// Whether the command can be executed. This property does not raise <see cref="System.ComponentModel.INotifyPropertyChanged.PropertyChanged"/>; it raises <see cref="ICanExecuteChanged.CanExecuteChanged"/> instead.
+        /// Whether the command can be executed. This property does not raise <see cref="System.ComponentModel.INotifyPropertyChanged.PropertyChanged"/>; it raises <see cref="ICanExecute.CanExecuteChanged"/> instead.
         /// </summary>
         public bool CanExecute
         {
