@@ -16,10 +16,12 @@ namespace Nito.Mvvm
         [ThreadStatic]
         private static PropertyChangedNotificationManager SingletonInstance;
         private readonly HashSet<PropertyChangedNotification> _propertiesRequiringNotification = new HashSet<PropertyChangedNotification>();
+        private readonly Lazy<ResumeOnDispose> _resumeOnDispose;
         private int _referenceCount;
 
         private PropertyChangedNotificationManager()
         {
+            _resumeOnDispose = new Lazy<ResumeOnDispose>(() => new ResumeOnDispose(this));
         }
 
         /// <summary>
@@ -41,7 +43,7 @@ namespace Nito.Mvvm
         public IDisposable DeferNotifications()
         {
             ++_referenceCount;
-            return ResumeOnDispose.Instance;
+            return _resumeOnDispose.Value;
         }
 
         private void ResumeNotifications()
@@ -81,11 +83,16 @@ namespace Nito.Mvvm
 
         private sealed class ResumeOnDispose : IDisposable
         {
-            public static ResumeOnDispose Instance = new ResumeOnDispose();
+            private readonly PropertyChangedNotificationManager _parent;
+
+            public ResumeOnDispose(PropertyChangedNotificationManager parent)
+            {
+                _parent = parent;
+            }
 
             public void Dispose()
             {
-                PropertyChangedNotificationManager.Instance.ResumeNotifications();
+                _parent.ResumeNotifications();
             }
         }
 
