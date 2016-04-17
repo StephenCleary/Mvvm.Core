@@ -10,7 +10,7 @@ install:
 
     $env:Path = "C:\Program Files (x86)\MSBuild\14.0\Bin;" + [Environment]::GetEnvironmentVariables("Machine")["Path"] + ";" + [Environment]::GetEnvironmentVariables("User")["Path"]
 
-    dnvm upgrade
+    dnvm install 1.0.0-rc1-update2
 before_build:
 - ps: dnu restore
 build:
