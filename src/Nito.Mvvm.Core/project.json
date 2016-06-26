@@ -1,25 +1,20 @@
 {
-  "version": "1.0.0-beta-1",
+  "version": "1.0.0-beta-2",
   "authors": [ "Stephen Cleary" ],
   "description": "Basic helper types for MVVM applications.",
-  "dependencies": {
-    "System.Collections": "4.0.11-beta-23516",
-    "System.Diagnostics.Debug": "4.0.11-beta-23516",
-    "System.ObjectModel": "4.0.11-beta-23516",
-    "System.Runtime": "4.0.21-beta-23516",
-    "System.Threading": "4.0.11-beta-23516"
-  },
-
-  "compilationOptions": {
+  "buildOptions": {
     "warningsAsErrors": true
   },
-
   "frameworks": {
-    "net45": {
-      "dependencies": { }
-    },
-    "netcore50": {
-      "dependencies": { }
+    "net45": { },
+    "netstandard1.0": {
+      "dependencies": {
+        "System.Collections": "4.0.11",
+        "System.Diagnostics.Debug": "4.0.11",
+        "System.ObjectModel": "4.0.12",
+        "System.Runtime": "4.1.0",
+        "System.Threading": "4.0.11"
+      }
     }
   }
 }
