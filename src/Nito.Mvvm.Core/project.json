@@ -1,10 +1,19 @@
 {
-  "version": "1.0.0-delta-4",
+  "version": "1.0.0-delta-5",
   "authors": [ "Stephen Cleary" ],
   "description": "Basic helper types for MVVM applications.",
   "buildOptions": {
     "warningsAsErrors": true,
     "xmlDoc": true
+  },
+  "packOptions": {
+    "tags": [ "mvvm", "inotifypropertychanged", "icommand", "canexecute" ],
+    "projectUrl": "https://github.com/StephenCleary/Mvvm.Core",
+    "licenseUrl": "https://raw.githubusercontent.com/StephenCleary/Mvvm.Core/master/LICENSE",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/StephenCleary/Mvvm.Core.git"
+    }
   },
   "frameworks": {
     "netstandard1.0": {
@@ -18,12 +27,12 @@
     },
     ".NETPortable,Version=v4.5,Profile=Profile259": {
       "frameworkAssemblies": {
-        "System.Collections": "",
-        "System.Diagnostics.Debug": "",
-        "System.ObjectModel": "",
-        "System.Runtime": "",
-        "System.Threading": "",
-        "System.Threading.Tasks": ""
+        "System.Collections": { "type": "build" },
+        "System.Diagnostics.Debug": { "type": "build" },
+        "System.ObjectModel": { "type": "build" },
+        "System.Runtime": { "type": "build" },
+        "System.Threading": { "type": "build" },
+        "System.Threading.Tasks": { "type": "build" }
       }
     }
   }
