@@ -61,10 +61,13 @@ namespace Nito.Mvvm
         /// <summary>
         /// Registers a <see cref="INotifyPropertyChanged.PropertyChanged"/> event. If events are not deferred, then the event is raised immediately.
         /// </summary>
-        /// <param name="raisePropertyChanged">An object capable of raising <see cref="INotifyPropertyChanged.PropertyChanged"/>.</param>
+        /// <param name="raisePropertyChanged">An object capable of raising <see cref="INotifyPropertyChanged.PropertyChanged"/>. May not be <c>null</c>.</param>
         /// <param name="args">The event arguments to pass to <see cref="INotifyPropertyChanged.PropertyChanged"/>.</param>
         public void Register(IRaisePropertyChanged raisePropertyChanged, PropertyChangedEventArgs args)
         {
+            if (raisePropertyChanged == null)
+                throw new ArgumentNullException(nameof(raisePropertyChanged));
+
             if (_referenceCount == 0)
                 raisePropertyChanged.RaisePropertyChanged(args);
             else
@@ -74,7 +77,7 @@ namespace Nito.Mvvm
         /// <summary>
         /// Registers a <see cref="INotifyPropertyChanged.PropertyChanged"/> event. If events are not deferred, then the event is raised immediately.
         /// </summary>
-        /// <param name="raisePropertyChanged">An object capable of raising <see cref="INotifyPropertyChanged.PropertyChanged"/>.</param>
+        /// <param name="raisePropertyChanged">An object capable of raising <see cref="INotifyPropertyChanged.PropertyChanged"/>. May not be <c>null</c>.</param>
         /// <param name="propertyName">The name of the property that changed.</param>
         public void Register(IRaisePropertyChanged raisePropertyChanged, string propertyName)
         {

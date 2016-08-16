@@ -38,6 +38,11 @@ namespace Nito.Mvvm
         /// <param name="handler">The callback that is called when the property has changed. May not be <c>null</c>.</param>
         public PropertyChangedSubscription(INotifyPropertyChanged source, string propertyName, PropertyChangedEventHandler handler)
         {
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+            if (handler == null)
+                throw new ArgumentNullException(nameof(handler));
+
             _source = source;
             _propertyName = propertyName;
             _handler = handler;
@@ -55,6 +60,10 @@ namespace Nito.Mvvm
         public PropertyChangedSubscription(INotifyPropertyChanged source, string propertyName, Action handler)
             : this(source, propertyName, (_, __) => handler())
         {
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+            if (handler == null)
+                throw new ArgumentNullException(nameof(handler));
         }
 
         private void SourceOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
@@ -72,6 +81,11 @@ namespace Nito.Mvvm
         /// <returns>The new subscription.</returns>
         public static IDisposable Create(INotifyPropertyChanged source, string propertyName, PropertyChangedEventHandler handler)
         {
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+            if (handler == null)
+                throw new ArgumentNullException(nameof(handler));
+
             return new PropertyChangedSubscription(source, propertyName, handler);
         }
 
@@ -84,6 +98,11 @@ namespace Nito.Mvvm
         /// <returns>The new subscription.</returns>
         public static IDisposable Create(INotifyPropertyChanged source, string propertyName, Action handler)
         {
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+            if (handler == null)
+                throw new ArgumentNullException(nameof(handler));
+
             return new PropertyChangedSubscription(source, propertyName, handler);
         }
 
