@@ -6,6 +6,9 @@
     "warningsAsErrors": true,
     "xmlDoc": true
   },
+  "dependencies": {
+    "Nito.Disposables": "1.0.0"
+  },
   "packOptions": {
     "tags": [ "mvvm", "inotifypropertychanged", "icommand", "canexecute" ],
     "projectUrl": "https://github.com/StephenCleary/Mvvm.Core",

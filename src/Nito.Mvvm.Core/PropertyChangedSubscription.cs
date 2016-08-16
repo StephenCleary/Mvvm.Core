@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Nito.Disposables;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
@@ -8,13 +9,8 @@ namespace Nito.Mvvm
     /// <summary>
     /// A subscription to a property changed event for a particular property.
     /// </summary>
-    public sealed class PropertyChangedSubscription: IDisposable
+    public sealed class PropertyChangedSubscription: SingleDisposable<INotifyPropertyChanged>
     {
-        /// <summary>
-        /// The object whose property is observed. Never <c>null</c>.
-        /// </summary>
-        private readonly INotifyPropertyChanged _source;
-
         /// <summary>
         /// The name of the property being observed. May be <c>null</c>.
         /// </summary>
@@ -37,18 +33,18 @@ namespace Nito.Mvvm
         /// <param name="propertyName">The name of the property to observe. May be <c>null</c> to indicate that all properties should be observed.</param>
         /// <param name="handler">The callback that is called when the property has changed. May not be <c>null</c>.</param>
         public PropertyChangedSubscription(INotifyPropertyChanged source, string propertyName, PropertyChangedEventHandler handler)
+            : base(source)
         {
             if (source == null)
                 throw new ArgumentNullException(nameof(source));
             if (handler == null)
                 throw new ArgumentNullException(nameof(handler));
 
-            _source = source;
             _propertyName = propertyName;
             _handler = handler;
 
             _subscription = SourceOnPropertyChanged;
-            _source.PropertyChanged += _subscription;
+            source.PropertyChanged += _subscription;
         }
 
         /// <summary>
@@ -109,9 +105,9 @@ namespace Nito.Mvvm
         /// <summary>
         /// Unsubscribes from the <see cref="INotifyPropertyChanged.PropertyChanged"/> event.
         /// </summary>
-        public void Dispose()
+        protected override void Dispose(INotifyPropertyChanged context)
         {
-            _source.PropertyChanged -= _subscription;
+            context.PropertyChanged -= _subscription;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Nito.Disposables;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -16,12 +17,10 @@ namespace Nito.Mvvm
         [ThreadStatic]
         private static PropertyChangedNotificationManager _singletonInstance;
         private readonly HashSet<PropertyChangedNotification> _propertiesRequiringNotification = new HashSet<PropertyChangedNotification>();
-        private readonly Lazy<ResumeOnDispose> _resumeOnDispose;
         private int _referenceCount;
 
         private PropertyChangedNotificationManager()
         {
-            _resumeOnDispose = new Lazy<ResumeOnDispose>(() => new ResumeOnDispose(this));
         }
 
         /// <summary>
@@ -38,12 +37,12 @@ namespace Nito.Mvvm
         }
 
         /// <summary>
-        /// Defers <see cref="INotifyPropertyChanged.PropertyChanged"/> events until the returned disposable is disposed. Deferrals are reference counted, so they are safe to nest. Do not dispose the returned object more than once.
+        /// Defers <see cref="INotifyPropertyChanged.PropertyChanged"/> events until the returned disposable is disposed. Deferrals are reference counted, so they are safe to nest.
         /// </summary>
         public IDisposable DeferNotifications()
         {
             ++_referenceCount;
-            return _resumeOnDispose.Value;
+            return new ResumeOnDispose(this);
         }
 
         private void ResumeNotifications()
@@ -84,18 +83,16 @@ namespace Nito.Mvvm
             Register(raisePropertyChanged, PropertyChangedEventArgsCache.Instance.Get(propertyName));
         }
 
-        private sealed class ResumeOnDispose : IDisposable
+        private sealed class ResumeOnDispose : SingleDisposable<PropertyChangedNotificationManager>
         {
-            private readonly PropertyChangedNotificationManager _parent;
-
             public ResumeOnDispose(PropertyChangedNotificationManager parent)
+                : base(parent)
             {
-                _parent = parent;
             }
 
-            public void Dispose()
+            protected override void Dispose(PropertyChangedNotificationManager context)
             {
-                _parent.ResumeNotifications();
+                context.ResumeNotifications();
             }
         }
 
