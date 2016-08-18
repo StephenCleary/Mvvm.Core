@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0-eta-01",
+  "version": "1.0.0",
   "authors": [ "Stephen Cleary" ],
   "description": "Basic helper types for MVVM applications.",
   "buildOptions": {
@@ -24,8 +24,7 @@
         "System.Collections": "4.0.11",
         "System.Diagnostics.Debug": "4.0.11",
         "System.ObjectModel": "4.0.12",
-        "System.Runtime": "4.1.0",
-        "System.Threading": "4.0.11"
+        "System.Runtime": "4.1.0"
       }
     },
     ".NETPortable,Version=v4.5,Profile=Profile259": {
@@ -33,9 +32,7 @@
         "System.Collections": { "type": "build" },
         "System.Diagnostics.Debug": { "type": "build" },
         "System.ObjectModel": { "type": "build" },
-        "System.Runtime": { "type": "build" },
-        "System.Threading": { "type": "build" },
-        "System.Threading.Tasks": { "type": "build" }
+        "System.Runtime": { "type": "build" }
       }
     }
   }
