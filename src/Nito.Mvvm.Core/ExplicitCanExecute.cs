@@ -18,12 +18,18 @@ namespace Nito.Mvvm
         private bool _canExecute;
 
         /// <summary>
+        /// This object is thread-affine.
+        /// </summary>
+        private ThreadAffinity _threadAffinity;
+
+        /// <summary>
         /// Creates a new explicit implementation of <c>ICommand.CanExecuteChanged</c>.
         /// </summary>
         /// <param name="sender">The sender of the <c>ICommand.CanExecuteChanged</c> event.</param>
         public ExplicitCanExecute(object sender)
         {
             _canExecuteChanged = new WeakCanExecuteChanged(sender);
+            _threadAffinity = ThreadAffinity.BindToCurrentThread();
         }
 
         /// <summary>
@@ -31,9 +37,14 @@ namespace Nito.Mvvm
         /// </summary>
         public bool CanExecute
         {
-            get { return _canExecute; }
+            get
+            {
+                _threadAffinity.VerifyCurrentThread();
+                return _canExecute;
+            }
             set
             {
+                _threadAffinity.VerifyCurrentThread();
                 if (_canExecute == value)
                     return;
                 _canExecute = value;
@@ -43,12 +54,21 @@ namespace Nito.Mvvm
 
         event EventHandler ICanExecute.CanExecuteChanged
         {
-            add { _canExecuteChanged.CanExecuteChanged += value; }
-            remove { _canExecuteChanged.CanExecuteChanged -= value; }
+            add
+            {
+                _threadAffinity.VerifyCurrentThread();
+                _canExecuteChanged.CanExecuteChanged += value;
+            }
+            remove
+            {
+                _threadAffinity.VerifyCurrentThread();
+                _canExecuteChanged.CanExecuteChanged -= value;
+            }
         }
 
         bool ICanExecute.CanExecute(object parameter)
         {
+            _threadAffinity.VerifyCurrentThread();
             return CanExecute;
         }
     }

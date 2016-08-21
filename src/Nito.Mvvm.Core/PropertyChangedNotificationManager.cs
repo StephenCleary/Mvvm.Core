@@ -19,8 +19,14 @@ namespace Nito.Mvvm
         private readonly HashSet<PropertyChangedNotification> _propertiesRequiringNotification = new HashSet<PropertyChangedNotification>();
         private int _referenceCount;
 
+        /// <summary>
+        /// This object is thread-affine.
+        /// </summary>
+        private ThreadAffinity _threadAffinity;
+
         private PropertyChangedNotificationManager()
         {
+            _threadAffinity = ThreadAffinity.BindToCurrentThread();
         }
 
         /// <summary>
@@ -41,12 +47,14 @@ namespace Nito.Mvvm
         /// </summary>
         public IDisposable DeferNotifications()
         {
+            _threadAffinity.VerifyCurrentThread();
             ++_referenceCount;
             return new ResumeOnDispose(this);
         }
 
         private void ResumeNotifications()
         {
+            _threadAffinity.VerifyCurrentThread();
             --_referenceCount;
             if (_referenceCount != 0)
                 return;
@@ -64,6 +72,7 @@ namespace Nito.Mvvm
         /// <param name="args">The event arguments to pass to <see cref="INotifyPropertyChanged.PropertyChanged"/>.</param>
         public void Register(IRaisePropertyChanged raisePropertyChanged, PropertyChangedEventArgs args)
         {
+            _threadAffinity.VerifyCurrentThread();
             if (raisePropertyChanged == null)
                 throw new ArgumentNullException(nameof(raisePropertyChanged));
 
@@ -80,6 +89,7 @@ namespace Nito.Mvvm
         /// <param name="propertyName">The name of the property that changed.</param>
         public void Register(IRaisePropertyChanged raisePropertyChanged, string propertyName)
         {
+            _threadAffinity.VerifyCurrentThread();
             Register(raisePropertyChanged, PropertyChangedEventArgsCache.Instance.Get(propertyName));
         }
 

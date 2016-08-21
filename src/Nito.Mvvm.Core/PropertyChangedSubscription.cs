@@ -25,6 +25,11 @@ namespace Nito.Mvvm
         private readonly PropertyChangedEventHandler _subscription;
 
         /// <summary>
+        /// This object is thread-affine.
+        /// </summary>
+        private ThreadAffinity _threadAffinity;
+
+        /// <summary>
         /// Subscribes to the <see cref="INotifyPropertyChanged.PropertyChanged"/> event for a particular property.
         /// </summary>
         /// <param name="source">The object whose property is observed. May not be <c>null</c>.</param>
@@ -38,6 +43,7 @@ namespace Nito.Mvvm
             if (handler == null)
                 throw new ArgumentNullException(nameof(handler));
 
+            _threadAffinity = ThreadAffinity.BindToCurrentThread();
             _propertyName = propertyName;
             _handler = handler;
 
@@ -62,6 +68,7 @@ namespace Nito.Mvvm
 
         private void SourceOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
+            _threadAffinity.VerifyCurrentThread();
             if (propertyChangedEventArgs.PropertyName == _propertyName || _propertyName == null)
                 _handler(sender, propertyChangedEventArgs);
         }
@@ -105,6 +112,7 @@ namespace Nito.Mvvm
         /// </summary>
         protected override void Dispose(INotifyPropertyChanged context)
         {
+            _threadAffinity.VerifyCurrentThread();
             context.PropertyChanged -= _subscription;
         }
     }

@@ -5,6 +5,7 @@ using Xunit;
 using System.ComponentModel;
 using System.Collections.Generic;
 using System.Linq;
+using Nito.AsyncEx;
 
 namespace UnitTests
 {
@@ -93,15 +94,18 @@ namespace UnitTests
         }
 
         [Fact]
-        public async Task Deferral_IsPerThread()
+        public void Deferral_IsPerThread()
         {
-            var pc = new DelegatePropertyChanged();
-            var name = Guid.NewGuid().ToString("N");
-            using (PropertyChangedNotificationManager.Instance.DeferNotifications())
+            AsyncContext.Run(async () =>
             {
-                await Task.Run(() => PropertyChangedNotificationManager.Instance.Register(pc, name));
-                Assert.Equal(new[] { name }, pc.ObservedArgs.Select(x => x.PropertyName));
-            }
+                var pc = new DelegatePropertyChanged();
+                var name = Guid.NewGuid().ToString("N");
+                using (PropertyChangedNotificationManager.Instance.DeferNotifications())
+                {
+                    await Task.Run(() => PropertyChangedNotificationManager.Instance.Register(pc, name));
+                    Assert.Equal(new[] { name }, pc.ObservedArgs.Select(x => x.PropertyName));
+                }
+            });
         }
 
         private sealed class DelegatePropertyChanged : IRaisePropertyChanged

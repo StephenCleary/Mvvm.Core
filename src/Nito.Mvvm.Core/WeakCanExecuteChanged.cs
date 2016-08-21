@@ -18,11 +18,17 @@ namespace Nito.Mvvm
         private readonly WeakCollection<EventHandler> _canExecuteChanged = new WeakCollection<EventHandler>();
 
         /// <summary>
+        /// This object is thread-affine.
+        /// </summary>
+        private ThreadAffinity _threadAffinity;
+
+        /// <summary>
         /// Creates a new weak-event implementation of <c>ICommand.CanExecuteChanged</c>.
         /// </summary>
         /// <param name="sender">The sender of the <c>ICommand.CanExecuteChanged</c> event.</param>
         public WeakCanExecuteChanged(object sender)
         {
+            _threadAffinity = ThreadAffinity.BindToCurrentThread();
             _sender = sender;
         }
 
@@ -31,8 +37,16 @@ namespace Nito.Mvvm
         /// </summary>
         public event EventHandler CanExecuteChanged
         {
-            add { _canExecuteChanged.Add(value); }
-            remove { _canExecuteChanged.Remove(value); }
+            add
+            {
+                _threadAffinity.VerifyCurrentThread();
+                _canExecuteChanged.Add(value);
+            }
+            remove
+            {
+                _threadAffinity.VerifyCurrentThread();
+                _canExecuteChanged.Remove(value);
+            }
         }
 
         /// <summary>
@@ -40,6 +54,7 @@ namespace Nito.Mvvm
         /// </summary>
         public void OnCanExecuteChanged()
         {
+            _threadAffinity.VerifyCurrentThread();
             foreach (var canExecuteChanged in _canExecuteChanged.GetLiveItems())
                 canExecuteChanged(_sender, EventArgs.Empty);
         }
