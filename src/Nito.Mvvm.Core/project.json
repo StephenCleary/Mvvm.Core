@@ -24,7 +24,8 @@
         "System.Collections": "4.0.11",
         "System.Diagnostics.Debug": "4.0.11",
         "System.ObjectModel": "4.0.12",
-        "System.Runtime": "4.1.0"
+        "System.Runtime": "4.1.0",
+        "System.Runtime.Extensions": "4.1.0"
       }
     },
     ".NETPortable,Version=v4.5,Profile=Profile259": {
@@ -32,7 +33,8 @@
         "System.Collections": { "type": "build" },
         "System.Diagnostics.Debug": { "type": "build" },
         "System.ObjectModel": { "type": "build" },
-        "System.Runtime": { "type": "build" }
+        "System.Runtime": { "type": "build" },
+        "System.Runtime.Extensions": { "type": "build" }
       }
     }
   }
