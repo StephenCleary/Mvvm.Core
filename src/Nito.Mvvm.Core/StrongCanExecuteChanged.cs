@@ -3,9 +3,9 @@
 namespace Nito.Mvvm
 {
     /// <summary>
-    /// Class that implements <c>ICommand.CanExecuteChanged</c> as a weak event.
+    /// Class that implements <c>ICommand.CanExecuteChanged</c> as a strong event.
     /// </summary>
-    public sealed class WeakCanExecuteChanged : ICanExecuteChanged
+    public sealed class StrongCanExecuteChanged : ICanExecuteChanged
     {
         /// <summary>
         /// The sender of the <c>ICommand.CanExecuteChanged</c> event.
@@ -13,9 +13,9 @@ namespace Nito.Mvvm
         private readonly object _sender;
 
         /// <summary>
-        /// The weak collection of delegates for <see cref="CanExecuteChanged"/>.
+        /// The collection of delegates for <see cref="CanExecuteChanged"/>.
         /// </summary>
-        private readonly WeakCollection<EventHandler> _canExecuteChanged = new WeakCollection<EventHandler>();
+        private event EventHandler _canExecuteChanged;
 
         /// <summary>
         /// This object is thread-affine.
@@ -23,40 +23,39 @@ namespace Nito.Mvvm
         private ThreadAffinity _threadAffinity;
 
         /// <summary>
-        /// Creates a new weak-event implementation of <c>ICommand.CanExecuteChanged</c>.
+        /// Creates a new strong-event implementation of <c>ICommand.CanExecuteChanged</c>.
         /// </summary>
         /// <param name="sender">The sender of the <c>ICommand.CanExecuteChanged</c> event.</param>
-        public WeakCanExecuteChanged(object sender)
+        public StrongCanExecuteChanged(object sender)
         {
             _threadAffinity = ThreadAffinity.BindToCurrentThread();
             _sender = sender;
         }
 
         /// <summary>
-        /// This is a weak event. Provides notification that the result of <c>ICommand.CanExecute</c> may be different.
+        /// Provides notification that the result of <c>ICommand.CanExecute</c> may be different.
         /// </summary>
         public event EventHandler CanExecuteChanged
         {
             add
             {
                 _threadAffinity.VerifyCurrentThread();
-                _canExecuteChanged.Add(value);
+                _canExecuteChanged += value;
             }
             remove
             {
                 _threadAffinity.VerifyCurrentThread();
-                _canExecuteChanged.Remove(value);
+                _canExecuteChanged -= value;
             }
         }
 
         /// <summary>
-        /// Raises the <see cref="CanExecuteChanged"/> event for any listeners still alive, and removes any references to garbage collected listeners.
+        /// Raises the <see cref="CanExecuteChanged"/> event.
         /// </summary>
         public void OnCanExecuteChanged()
         {
             _threadAffinity.VerifyCurrentThread();
-            foreach (var canExecuteChanged in _canExecuteChanged.GetLiveItems())
-                canExecuteChanged(_sender, EventArgs.Empty);
+            _canExecuteChanged?.Invoke(_sender, EventArgs.Empty);
         }
     }
 }
