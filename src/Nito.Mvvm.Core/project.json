@@ -1,5 +1,5 @@
 {
-  "version": "1.2.0-alpha-02",
+  "version": "1.2.0-alpha-03",
   "authors": [ "Stephen Cleary" ],
   "description": "Basic helper types for MVVM applications.",
   "buildOptions": {
