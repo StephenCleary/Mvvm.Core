@@ -21,6 +21,6 @@ namespace Nito.Mvvm
         /// <summary>
         /// Default factory method for creating <see cref="ICanExecuteChanged"/> implementations.
         /// </summary>
-        public static Func<object, ICanExecuteChanged> Create { get; set; } = CreateStrongCanExecuteChanged;
+        public static Func<object, ICanExecuteChanged> Default { get; set; } = CreateStrongCanExecuteChanged;
     }
 }
