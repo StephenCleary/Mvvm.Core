@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Description>Basic helper types for MVVM applications.</Description>
     <VersionPrefix>1.2.0</VersionPrefix>
-    <VersionSuffix>pre-01</VersionSuffix>
+    <VersionSuffix></VersionSuffix>
     <Authors>Stephen Cleary</Authors>
     <TargetFrameworks>netstandard1.0</TargetFrameworks>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
