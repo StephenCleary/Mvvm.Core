@@ -1,4 +1,1 @@
-# Mvvm.Core
-Basic MVVM helpers.
-
-[API Docs](http://dotnetapis.com/pkg/Nito.Mvvm.Core)
+This project has moved [to Nito.Mvvm](https://github.com/StephenCleary/Mvvm).
